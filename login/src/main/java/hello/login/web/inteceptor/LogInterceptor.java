@@ -1,4 +1,4 @@
-package hello.login.web.interceptor;
+package hello.login.web.inteceptor;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.method.HandlerMethod;
@@ -11,23 +11,18 @@ import java.util.UUID;
 
 @Slf4j
 public class LogInterceptor implements HandlerInterceptor {
-
-    public static final String LOG_ID = "logId";
-
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String requestURI = request.getRequestURI();
         String uuid = UUID.randomUUID().toString();
-
-        request.setAttribute(LOG_ID,uuid);
-
-        //@RequestMapping : HandlerMethod
-        // 정적 리소스 : ResourceHttpRequestHandler
+        request.setAttribute("logId", uuid);
         if(handler instanceof HandlerMethod) {
-            HandlerMethod handler1 = (HandlerMethod) handler;// 호출할 컨트롤러 메서드의 모든 정보가 포함되어있다.
+            HandlerMethod hm = (HandlerMethod) handler;
+
         }
         log.info("REQUEST [{}][{}][{}]", uuid, requestURI, handler);
-            return true;
+
+        return true;
     }
 
     @Override
@@ -38,11 +33,10 @@ public class LogInterceptor implements HandlerInterceptor {
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
         String requestURI = request.getRequestURI();
-        Object logId = (String)request.getAttribute(LOG_ID);
-        log.info("RESPONSE [{}][{}][{}]", logId, requestURI, handler);
-        if(ex != null) {
+        String logId = (String)request.getAttribute("logId");
+        log.info("RESPONSE [{}][{}]", logId, requestURI);
+        if(ex !=null) {
             log.error("afterCompletion error!!", ex);
         }
-
     }
 }
