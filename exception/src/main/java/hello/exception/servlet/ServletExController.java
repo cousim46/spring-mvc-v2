@@ -1,11 +1,17 @@
 package hello.exception.servlet;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 @Slf4j
 @Controller
@@ -23,6 +29,8 @@ public class ServletExController {
     public void error400(HttpServletResponse response) throws IOException {
         response.sendError(400,"404 오류");
     }
+
+
     @GetMapping("/error-500")
     public void error500(HttpServletResponse response) throws IOException {
         response.sendError(500);
